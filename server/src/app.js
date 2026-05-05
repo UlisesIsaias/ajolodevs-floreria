@@ -17,7 +17,7 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    'https://TU-APP.vercel.app'  // ← URL exacta de Vercel
+    'https://ajolodevs-floreria.vercel.app'
   ],
   credentials: true
 }));
