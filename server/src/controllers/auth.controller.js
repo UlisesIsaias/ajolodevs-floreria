@@ -3,7 +3,6 @@ const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
 require('dotenv').config();
 
-// Registrar nuevo usuario
 const registro = async (req, res) => {
   const { nombre, apellido, email, password, telefono } = req.body;
 
@@ -81,7 +80,6 @@ const login = async (req, res) => {
   }
 };
 
-// Obtener perfil del usuario autenticado
 const perfil = async (req, res) => {
   try {
     const [rows] = await pool.query('CALL sp_usuario_obtener(?)', [req.usuario.id]);

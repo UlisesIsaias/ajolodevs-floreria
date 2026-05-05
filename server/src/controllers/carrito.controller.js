@@ -1,12 +1,10 @@
 const pool = require('../config/db');
 
-// Ver carrito del usuario autenticado
 const ver = async (req, res) => {
   try {
     const [rows] = await pool.query('CALL sp_carrito_ver(?)', [req.usuario.id]);
     const items = rows[0];
 
-    // Calcular total del carrito
     const total = items.reduce((acc, item) => acc + parseFloat(item.subtotal), 0);
 
     res.json({ items, total: total.toFixed(2) });
@@ -15,7 +13,6 @@ const ver = async (req, res) => {
   }
 };
 
-// Agregar producto al carrito
 const agregar = async (req, res) => {
   const { producto_id, cantidad } = req.body;
 
@@ -37,7 +34,6 @@ const agregar = async (req, res) => {
   }
 };
 
-// Eliminar un item del carrito
 const eliminarItem = async (req, res) => {
   const { producto_id } = req.params;
   try {
@@ -51,7 +47,6 @@ const eliminarItem = async (req, res) => {
   }
 };
 
-// Vaciar carrito completo
 const vaciar = async (req, res) => {
   try {
     await pool.query('CALL sp_carrito_vaciar(?)', [req.usuario.id]);

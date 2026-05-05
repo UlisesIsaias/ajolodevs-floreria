@@ -35,7 +35,6 @@ const crear = async (req, res) => {
   }
 };
 
-// Actualizar categoría (solo admin)
 const actualizar = async (req, res) => {
   const { id } = req.params;
   const { nombre, descripcion, imagen_url } = req.body;
@@ -59,7 +58,6 @@ const actualizar = async (req, res) => {
   }
 };
 
-// Eliminar categoría (solo admin)
 const eliminar = async (req, res) => {
   const { id } = req.params;
 

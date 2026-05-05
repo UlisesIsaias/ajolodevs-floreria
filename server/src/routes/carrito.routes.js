@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { ver, agregar, eliminarItem, vaciar } = require('../controllers/carrito.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
 
-// Todas requieren autenticación (cliente o admin)
+
 router.get('/',                    authMiddleware, ver);
 router.post('/',                   authMiddleware, agregar);
 router.delete('/vaciar',           authMiddleware, vaciar);
