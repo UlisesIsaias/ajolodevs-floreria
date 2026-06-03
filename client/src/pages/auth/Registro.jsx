@@ -37,74 +37,70 @@ export default function Registro() {
     }
   };
 
+  const inputStyle = {
+    border: '1.5px solid #C8EAD8',
+    padding: '12px 16px',
+    borderRadius: '10px',
+    fontSize: '14px',
+    outline: 'none',
+    width: '100%',
+    background: '#fff',
+    boxSizing: 'border-box'
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-10"
       style={{ background: '#F7F7F5' }}>
-      <div style={{ background: '#fff', border: '0.5px solid #C8EAD8' }}
-        className="w-full max-w-md rounded-2xl p-8">
+      <div className="w-full max-w-md rounded-2xl"
+        style={{ background: '#fff', border: '1px solid #C8EAD8', padding: '48px 40px' }}>
 
         {/* Header */}
-        <div className="text-center mb-8">
-          <div style={{ background: '#52B788' }}
-            className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-              <circle cx="16" cy="16" r="4" fill="white"/>
-              <ellipse cx="16" cy="9"  rx="3" ry="5" fill="white" opacity="0.9"/>
-              <ellipse cx="16" cy="23" rx="3" ry="5" fill="white" opacity="0.9"/>
-              <ellipse cx="9"  cy="16" rx="5" ry="3" fill="white" opacity="0.9"/>
-              <ellipse cx="23" cy="16" rx="5" ry="3" fill="white" opacity="0.9"/>
-            </svg>
-          </div>
+        <div className="text-center" style={{ marginBottom: '36px' }}>
+          <img src="/logo.png" alt="AjoloDevs"
+            className="mx-auto mb-5"
+            style={{ width: '56px', height: '56px', objectFit: 'contain' }} />
           <h1 className="text-xl font-medium" style={{ color: '#1A1A1A' }}>Crear cuenta</h1>
-          <p className="text-sm mt-1" style={{ color: '#888' }}>Únete a AjoloDevs Florería</p>
+          <p className="text-sm" style={{ color: '#888', marginTop: '6px' }}>Únete a AjoloDevs Florería</p>
         </div>
 
         {/* Formulario */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col" style={{ gap: '20px' }}>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2" style={{ gap: '12px' }}>
             <div>
-              <label className="text-xs font-medium block mb-1" style={{ color: '#555' }}>
+              <label className="text-xs font-medium block" style={{ color: '#555', marginBottom: '8px' }}>
                 Nombre <span style={{ color: '#52B788' }}>*</span>
               </label>
               <input type="text" name="nombre" value={form.nombre} onChange={handleChange}
-                placeholder="Juan"
-                style={{ border: '0.5px solid #C8EAD8' }}
-                className="w-full px-3 py-2.5 rounded-lg text-sm outline-none focus:border-[#52B788] transition-colors" />
+                placeholder="Juan" style={inputStyle} />
             </div>
             <div>
-              <label className="text-xs font-medium block mb-1" style={{ color: '#555' }}>
+              <label className="text-xs font-medium block" style={{ color: '#555', marginBottom: '8px' }}>
                 Apellido <span style={{ color: '#52B788' }}>*</span>
               </label>
               <input type="text" name="apellido" value={form.apellido} onChange={handleChange}
-                placeholder="Pérez"
-                style={{ border: '0.5px solid #C8EAD8' }}
-                className="w-full px-3 py-2.5 rounded-lg text-sm outline-none focus:border-[#52B788] transition-colors" />
+                placeholder="Pérez" style={inputStyle} />
             </div>
           </div>
 
           <div>
-            <label className="text-xs font-medium block mb-1" style={{ color: '#555' }}>
+            <label className="text-xs font-medium block" style={{ color: '#555', marginBottom: '8px' }}>
               Correo electrónico <span style={{ color: '#52B788' }}>*</span>
             </label>
             <input type="email" name="email" value={form.email} onChange={handleChange}
-              placeholder="tu@correo.com"
-              style={{ border: '0.5px solid #C8EAD8' }}
-              className="w-full px-4 py-2.5 rounded-lg text-sm outline-none focus:border-[#52B788] transition-colors" />
+              placeholder="tu@correo.com" style={inputStyle} />
           </div>
 
           <div>
-            <label className="text-xs font-medium block mb-1" style={{ color: '#555' }}>
+            <label className="text-xs font-medium block" style={{ color: '#555', marginBottom: '8px' }}>
               Teléfono
             </label>
             <input type="tel" name="telefono" value={form.telefono} onChange={handleChange}
-              placeholder="1234567890"
-              style={{ border: '0.5px solid #C8EAD8' }}
-              className="w-full px-4 py-2.5 rounded-lg text-sm outline-none focus:border-[#52B788] transition-colors" />
+              placeholder="1234567890" style={inputStyle} />
           </div>
 
           <div>
-            <label className="text-xs font-medium block mb-1" style={{ color: '#555' }}>
+            <label className="text-xs font-medium block" style={{ color: '#555', marginBottom: '8px' }}>
               Contraseña <span style={{ color: '#52B788' }}>*</span>
             </label>
             <div className="relative">
@@ -112,8 +108,7 @@ export default function Registro() {
                 type={verPass ? 'text' : 'password'}
                 name="password" value={form.password} onChange={handleChange}
                 placeholder="Mínimo 6 caracteres"
-                style={{ border: '0.5px solid #C8EAD8' }}
-                className="w-full px-4 py-2.5 rounded-lg text-sm outline-none focus:border-[#52B788] transition-colors pr-10" />
+                style={{ ...inputStyle, padding: '12px 40px 12px 16px' }} />
               <button type="button" onClick={() => setVerPass(!verPass)}
                 className="absolute right-3 top-1/2 -translate-y-1/2" style={{ color: '#888' }}>
                 {verPass ? <EyeOff size={15} /> : <Eye size={15} />}
@@ -122,14 +117,19 @@ export default function Registro() {
           </div>
 
           <button type="submit" disabled={cargando}
-            style={{ background: cargando ? '#a0d4bc' : '#52B788' }}
-            className="w-full text-white py-2.5 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity mt-2">
+            style={{
+              background: cargando ? '#a0d4bc' : '#52B788',
+              padding: '13px',
+              borderRadius: '10px',
+              marginTop: '4px'
+            }}
+            className="w-full text-white text-sm font-medium hover:opacity-90 transition-opacity">
             {cargando ? 'Creando cuenta...' : 'Crear cuenta'}
           </button>
 
         </form>
 
-        <p className="text-center text-xs mt-6" style={{ color: '#888' }}>
+        <p className="text-center text-xs" style={{ color: '#888', marginTop: '28px' }}>
           ¿Ya tienes cuenta?{' '}
           <Link to="/login" style={{ color: '#52B788' }} className="font-medium hover:underline">
             Inicia sesión
