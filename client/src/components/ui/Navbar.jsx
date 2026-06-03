@@ -21,16 +21,12 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
 
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
-          <div style={{ background: '#52B788' }} className="w-9 h-9 rounded-full flex items-center justify-center">
-            <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
-              <circle cx="16" cy="16" r="4" fill="white"/>
-              <ellipse cx="16" cy="9"  rx="3" ry="5" fill="white" opacity="0.9"/>
-              <ellipse cx="16" cy="23" rx="3" ry="5" fill="white" opacity="0.9"/>
-              <ellipse cx="9"  cy="16" rx="5" ry="3" fill="white" opacity="0.9"/>
-              <ellipse cx="23" cy="16" rx="5" ry="3" fill="white" opacity="0.9"/>
-            </svg>
-          </div>
+        <Link to="" className="flex items-center gap-2">
+          <img
+            src="/logo.png"
+            alt="AjoloDevs Florería"
+            className="w-9 h-9 object-contain"
+          />
           <span style={{ color: '#1A1A1A' }} className="font-medium text-sm hidden sm:block">
             AjoloDevs Florería
           </span>
