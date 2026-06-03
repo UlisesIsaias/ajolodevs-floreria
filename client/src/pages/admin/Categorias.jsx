@@ -7,14 +7,14 @@ function Modal({ titulo, onClose, children }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4"
       style={{ background: 'rgba(0,0,0,0.3)' }}>
-      <div style={{ background: '#fff', border: '0.5px solid #C8EAD8' }}
-        className="w-full max-w-md rounded-2xl">
-        <div style={{ borderBottom: '0.5px solid #C8EAD8' }}
-          className="flex items-center justify-between px-6 py-4">
-          <p className="font-medium text-sm" style={{ color: '#1A1A1A' }}>{titulo}</p>
-          <button onClick={onClose} style={{ color: '#aaa' }}><X size={18} /></button>
+      <div style={{ background: '#fff', border: '1px solid #C8EAD8', borderRadius: '16px', width: '100%', maxWidth: '440px' }}>
+        <div style={{ borderBottom: '1px solid #C8EAD8', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px' }}>
+          <p style={{ fontWeight: '500', fontSize: '14px', color: '#1A1A1A' }}>{titulo}</p>
+          <button onClick={onClose} style={{ color: '#aaa', background: 'none', border: 'none', cursor: 'pointer', display: 'flex' }}>
+            <X size={18} />
+          </button>
         </div>
-        <div className="p-6">{children}</div>
+        <div style={{ padding: '24px' }}>{children}</div>
       </div>
     </div>
   );
@@ -87,86 +87,103 @@ export default function AdminCategorias() {
     }
   };
 
-  return (
-    <div className="flex flex-col gap-6">
+  const inputStyle = {
+    border: '1px solid #C8EAD8',
+    padding: '11px 14px',
+    borderRadius: '10px',
+    fontSize: '14px',
+    outline: 'none',
+    width: '100%',
+    background: '#fff',
+    boxSizing: 'border-box'
+  };
 
-      <div className="flex items-center justify-between">
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', padding: '8px 0' }}>
+
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <h1 className="text-2xl font-medium" style={{ color: '#1A1A1A' }}>Categorías</h1>
-          <p className="text-sm mt-1" style={{ color: '#888' }}>{categorias.length} categorías registradas</p>
+          <p className="text-sm" style={{ color: '#888', marginTop: '6px' }}>
+            {categorias.length} categorías registradas
+          </p>
         </div>
         <button onClick={abrirCrear}
-          style={{ background: '#52B788' }}
-          className="text-white px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 hover:opacity-90">
+          style={{ background: '#52B788', color: '#fff', padding: '10px 20px', borderRadius: '10px', fontSize: '14px', fontWeight: '500', display: 'flex', alignItems: 'center', gap: '8px', border: 'none', cursor: 'pointer' }}
+          className="hover:opacity-90 transition-opacity">
           <Plus size={16} /> Nueva categoría
         </button>
       </div>
 
+      {/* Grid */}
       {cargando ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3" style={{ gap: '16px' }}>
           {[...Array(6)].map((_, i) => (
-            <div key={i} style={{ background: '#E8F5EE' }} className="h-24 rounded-xl animate-pulse" />
+            <div key={i} style={{ background: '#E8F5EE', borderRadius: '12px', height: '96px' }}
+              className="animate-pulse" />
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3" style={{ gap: '16px' }}>
           {categorias.map((c) => (
             <div key={c.id}
-              style={{ border: '0.5px solid #C8EAD8', background: '#fff' }}
-              className="rounded-xl p-5">
-              <div className="flex items-start justify-between mb-2">
-                <div style={{ background: '#E8F5EE' }}
-                  className="w-10 h-10 rounded-lg flex items-center justify-center text-xl">
+              style={{ border: '1px solid #C8EAD8', background: '#fff', borderRadius: '12px', padding: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '14px' }}>
+                <div style={{ background: '#E8F5EE', width: '40px', height: '40px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>
                   🌸
                 </div>
-                <div className="flex gap-2">
+                <div style={{ display: 'flex', gap: '8px' }}>
                   <button onClick={() => abrirEditar(c)}
-                    style={{ background: '#E8F5EE', color: '#2D6A4F' }}
-                    className="p-1.5 rounded-lg hover:opacity-80">
-                    <Pencil size={12} />
+                    style={{ background: '#E8F5EE', color: '#2D6A4F', padding: '6px', borderRadius: '8px', border: 'none', cursor: 'pointer', display: 'flex' }}
+                    className="hover:opacity-80">
+                    <Pencil size={13} />
                   </button>
                   <button onClick={() => handleEliminar(c.id)}
-                    style={{ background: '#FDE8E8', color: '#9B2C2C' }}
-                    className="p-1.5 rounded-lg hover:opacity-80">
-                    <Trash2 size={12} />
+                    style={{ background: '#FDE8E8', color: '#9B2C2C', padding: '6px', borderRadius: '8px', border: 'none', cursor: 'pointer', display: 'flex' }}
+                    className="hover:opacity-80">
+                    <Trash2 size={13} />
                   </button>
                 </div>
               </div>
-              <p className="font-medium text-sm mb-1" style={{ color: '#1A1A1A' }}>{c.nombre}</p>
-              <p className="text-xs" style={{ color: '#888' }}>{c.descripcion || 'Sin descripción'}</p>
+              <p style={{ fontWeight: '500', fontSize: '14px', color: '#1A1A1A', marginBottom: '6px' }}>{c.nombre}</p>
+              <p style={{ fontSize: '12px', color: '#888' }}>{c.descripcion || 'Sin descripción'}</p>
             </div>
           ))}
         </div>
       )}
 
+      {/* Modal */}
       {modal && (
         <Modal titulo={editando ? 'Editar categoría' : 'Nueva categoría'} onClose={() => setModal(false)}>
-          <div className="flex flex-col gap-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div>
-              <label className="text-xs font-medium block mb-1" style={{ color: '#555' }}>Nombre</label>
+              <label style={{ fontSize: '12px', fontWeight: '500', color: '#555', display: 'block', marginBottom: '8px' }}>
+                Nombre
+              </label>
               <input type="text" value={form.nombre}
                 onChange={(e) => setForm({ ...form, nombre: e.target.value })}
                 placeholder="Nombre de la categoría"
-                style={{ border: '0.5px solid #C8EAD8' }}
-                className="w-full px-3 py-2.5 rounded-lg text-sm outline-none focus:border-[#52B788]" />
+                style={inputStyle} />
             </div>
             <div>
-              <label className="text-xs font-medium block mb-1" style={{ color: '#555' }}>Descripción</label>
+              <label style={{ fontSize: '12px', fontWeight: '500', color: '#555', display: 'block', marginBottom: '8px' }}>
+                Descripción
+              </label>
               <textarea value={form.descripcion}
                 onChange={(e) => setForm({ ...form, descripcion: e.target.value })}
                 placeholder="Descripción de la categoría" rows={3}
-                style={{ border: '0.5px solid #C8EAD8' }}
-                className="w-full px-3 py-2 rounded-lg text-sm outline-none focus:border-[#52B788] resize-none" />
+                style={{ ...inputStyle, resize: 'none', padding: '11px 14px' }} />
             </div>
-            <div className="flex gap-3 pt-2">
+            <div style={{ display: 'flex', gap: '12px', paddingTop: '4px' }}>
               <button onClick={() => setModal(false)}
-                style={{ border: '0.5px solid #C8EAD8', color: '#555' }}
-                className="flex-1 py-2.5 rounded-xl text-sm hover:bg-[#F7F7F5] transition-colors">
+                style={{ flex: 1, padding: '11px', borderRadius: '10px', fontSize: '14px', border: '1px solid #C8EAD8', color: '#555', background: '#fff', cursor: 'pointer' }}
+                className="hover:bg-[#F7F7F5] transition-colors">
                 Cancelar
               </button>
               <button onClick={handleGuardar} disabled={guardando}
-                style={{ background: guardando ? '#a0d4bc' : '#52B788' }}
-                className="flex-1 text-white py-2.5 rounded-xl text-sm font-medium hover:opacity-90">
+                style={{ flex: 1, padding: '11px', borderRadius: '10px', fontSize: '14px', fontWeight: '500', background: guardando ? '#a0d4bc' : '#52B788', color: '#fff', border: 'none', cursor: 'pointer' }}
+                className="hover:opacity-90 transition-opacity">
                 {guardando ? 'Guardando...' : editando ? 'Actualizar' : 'Crear'}
               </button>
             </div>

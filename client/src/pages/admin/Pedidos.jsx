@@ -34,33 +34,34 @@ function ModalEstatus({ pedido, onClose, onActualizar }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4"
       style={{ background: 'rgba(0,0,0,0.3)' }}>
-      <div style={{ background: '#fff', border: '0.5px solid #C8EAD8' }}
-        className="w-full max-w-md rounded-2xl">
-        <div style={{ borderBottom: '0.5px solid #C8EAD8' }}
-          className="flex items-center justify-between px-6 py-4">
-          <p className="font-medium text-sm" style={{ color: '#1A1A1A' }}>
+      <div style={{ background: '#fff', border: '1px solid #C8EAD8', borderRadius: '16px', width: '100%', maxWidth: '440px' }}>
+        <div style={{ borderBottom: '1px solid #C8EAD8', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px' }}>
+          <p style={{ fontWeight: '500', fontSize: '14px', color: '#1A1A1A' }}>
             Cambiar estatus — Pedido #{pedido.id}
           </p>
-          <button onClick={onClose} style={{ color: '#aaa' }}><X size={18} /></button>
+          <button onClick={onClose} style={{ color: '#aaa', background: 'none', border: 'none', cursor: 'pointer', display: 'flex' }}>
+            <X size={18} />
+          </button>
         </div>
-        <div className="p-6 flex flex-col gap-4">
+        <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div>
-            <label className="text-xs font-medium block mb-2" style={{ color: '#555' }}>
+            <label style={{ fontSize: '12px', fontWeight: '500', color: '#555', display: 'block', marginBottom: '10px' }}>
               Nuevo estatus
             </label>
-            <div className="flex flex-col gap-2">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {Object.entries(estatusColor).map(([key, val]) => (
                 <label key={key}
                   style={{
-                    border: `0.5px solid ${estatus === key ? val.color : '#C8EAD8'}`,
+                    border: `1px solid ${estatus === key ? val.color : '#C8EAD8'}`,
                     background: estatus === key ? val.bg : '#fff',
-                  }}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-colors">
+                    display: 'flex', alignItems: 'center', gap: '12px',
+                    padding: '11px 14px', borderRadius: '10px', cursor: 'pointer'
+                  }}>
                   <input type="radio" name="estatus" value={key}
                     checked={estatus === key}
                     onChange={(e) => setEstatus(e.target.value)}
                     className="accent-[#52B788]" />
-                  <span className="text-sm capitalize" style={{ color: val.color }}>
+                  <span style={{ fontSize: '14px', textTransform: 'capitalize', color: val.color }}>
                     {key.replace('_', ' ')}
                   </span>
                 </label>
@@ -68,25 +69,24 @@ function ModalEstatus({ pedido, onClose, onActualizar }) {
             </div>
           </div>
           <div>
-            <label className="text-xs font-medium block mb-1" style={{ color: '#555' }}>
+            <label style={{ fontSize: '12px', fontWeight: '500', color: '#555', display: 'block', marginBottom: '8px' }}>
               Comentario (opcional)
             </label>
             <textarea value={comentario}
               onChange={(e) => setComentario(e.target.value)}
               placeholder="Comentario sobre el cambio..."
               rows={2}
-              style={{ border: '0.5px solid #C8EAD8' }}
-              className="w-full px-3 py-2 rounded-lg text-sm outline-none focus:border-[#52B788] resize-none" />
+              style={{ border: '1px solid #C8EAD8', padding: '11px 14px', borderRadius: '10px', fontSize: '14px', outline: 'none', width: '100%', resize: 'none', boxSizing: 'border-box' }} />
           </div>
-          <div className="flex gap-3">
+          <div style={{ display: 'flex', gap: '12px' }}>
             <button onClick={onClose}
-              style={{ border: '0.5px solid #C8EAD8', color: '#555' }}
-              className="flex-1 py-2.5 rounded-xl text-sm hover:bg-[#F7F7F5]">
+              style={{ flex: 1, padding: '11px', borderRadius: '10px', fontSize: '14px', border: '1px solid #C8EAD8', color: '#555', background: '#fff', cursor: 'pointer' }}
+              className="hover:bg-[#F7F7F5] transition-colors">
               Cancelar
             </button>
             <button onClick={handleGuardar} disabled={guardando}
-              style={{ background: guardando ? '#a0d4bc' : '#52B788' }}
-              className="flex-1 text-white py-2.5 rounded-xl text-sm font-medium hover:opacity-90">
+              style={{ flex: 1, padding: '11px', borderRadius: '10px', fontSize: '14px', fontWeight: '500', background: guardando ? '#a0d4bc' : '#52B788', color: '#fff', border: 'none', cursor: 'pointer' }}
+              className="hover:opacity-90 transition-opacity">
               {guardando ? 'Guardando...' : 'Actualizar'}
             </button>
           </div>
@@ -97,10 +97,10 @@ function ModalEstatus({ pedido, onClose, onActualizar }) {
 }
 
 export default function AdminPedidos() {
-  const [pedidos,        setPedidos]        = useState([]);
-  const [cargando,       setCargando]       = useState(true);
-  const [filtroEstatus,  setFiltroEstatus]  = useState('');
-  const [modalPedido,    setModalPedido]    = useState(null);
+  const [pedidos,       setPedidos]       = useState([]);
+  const [cargando,      setCargando]      = useState(true);
+  const [filtroEstatus, setFiltroEstatus] = useState('');
+  const [modalPedido,   setModalPedido]   = useState(null);
 
   const cargar = async () => {
     try {
@@ -117,17 +117,16 @@ export default function AdminPedidos() {
   useEffect(() => { cargar(); }, [filtroEstatus]);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', padding: '8px 0' }}>
 
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-medium" style={{ color: '#1A1A1A' }}>Pedidos</h1>
-          <p className="text-sm mt-1" style={{ color: '#888' }}>{pedidos.length} pedidos</p>
-        </div>
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-medium" style={{ color: '#1A1A1A' }}>Pedidos</h1>
+        <p className="text-sm" style={{ color: '#888', marginTop: '6px' }}>{pedidos.length} pedidos</p>
       </div>
 
       {/* Filtros */}
-      <div className="flex gap-2 flex-wrap">
+      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         {[['', 'Todos'], ['pendiente', 'Pendientes'], ['en_proceso', 'En proceso'],
           ['enviado', 'Enviados'], ['entregado', 'Entregados'], ['cancelado', 'Cancelados']
         ].map(([val, label]) => (
@@ -135,9 +134,11 @@ export default function AdminPedidos() {
             style={{
               background: filtroEstatus === val ? '#52B788' : '#fff',
               color:      filtroEstatus === val ? '#fff'    : '#555',
-              border:     '0.5px solid #C8EAD8',
+              border:     '1px solid #C8EAD8',
+              padding: '8px 16px', borderRadius: '10px', fontSize: '13px',
+              fontWeight: '500', cursor: 'pointer'
             }}
-            className="px-4 py-2 rounded-xl text-xs font-medium transition-colors">
+            className="transition-colors">
             {label}
           </button>
         ))}
@@ -145,22 +146,25 @@ export default function AdminPedidos() {
 
       {/* Lista */}
       {cargando ? (
-        <div className="flex flex-col gap-3">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {[...Array(5)].map((_, i) => (
-            <div key={i} style={{ background: '#E8F5EE' }} className="h-20 rounded-xl animate-pulse" />
+            <div key={i} style={{ background: '#E8F5EE', borderRadius: '12px', height: '80px' }}
+              className="animate-pulse" />
           ))}
         </div>
       ) : pedidos.length === 0 ? (
-        <div className="text-center py-20">
-          <p className="text-sm" style={{ color: '#aaa' }}>No hay pedidos</p>
+        <div style={{ textAlign: 'center', padding: '80px 0' }}>
+          <p style={{ fontSize: '14px', color: '#aaa' }}>No hay pedidos</p>
         </div>
       ) : (
-        <div style={{ border: '0.5px solid #C8EAD8', background: '#fff' }} className="rounded-xl overflow-hidden">
+        <div style={{ border: '1px solid #C8EAD8', background: '#fff', borderRadius: '12px', overflow: 'hidden' }}>
           <table className="w-full">
-            <thead style={{ background: '#F7F7F5', borderBottom: '0.5px solid #C8EAD8' }}>
+            <thead style={{ background: '#F7F7F5', borderBottom: '1px solid #C8EAD8' }}>
               <tr>
                 {['#', 'Cliente', 'Total', 'Método', 'Estatus', 'Fecha', 'Acciones'].map((h) => (
-                  <th key={h} className="text-left px-4 py-3 text-xs font-medium" style={{ color: '#555' }}>{h}</th>
+                  <th key={h} style={{ textAlign: 'left', padding: '14px 20px', fontSize: '12px', fontWeight: '500', color: '#555' }}>
+                    {h}
+                  </th>
                 ))}
               </tr>
             </thead>
@@ -168,33 +172,34 @@ export default function AdminPedidos() {
               {pedidos.map((p, i) => {
                 const estilo = estatusColor[p.estatus] || estatusColor.pendiente;
                 return (
-                  <tr key={p.id} style={{ borderBottom: i < pedidos.length - 1 ? '0.5px solid #F0F0F0' : 'none' }}>
-                    <td className="px-4 py-3 text-sm font-medium" style={{ color: '#1A1A1A' }}>#{p.id}</td>
-                    <td className="px-4 py-3">
-                      <p className="text-sm" style={{ color: '#1A1A1A' }}>{p.cliente}</p>
-                      <p className="text-xs" style={{ color: '#aaa' }}>{p.email}</p>
+                  <tr key={p.id} style={{ borderBottom: i < pedidos.length - 1 ? '1px solid #F0F0F0' : 'none' }}>
+                    <td style={{ padding: '16px 20px', fontSize: '14px', fontWeight: '500', color: '#1A1A1A' }}>
+                      #{p.id}
                     </td>
-                    <td className="px-4 py-3 text-sm font-medium" style={{ color: '#52B788' }}>
+                    <td style={{ padding: '16px 20px' }}>
+                      <p style={{ fontSize: '14px', color: '#1A1A1A' }}>{p.cliente}</p>
+                      <p style={{ fontSize: '12px', color: '#aaa', marginTop: '2px' }}>{p.email}</p>
+                    </td>
+                    <td style={{ padding: '16px 20px', fontSize: '14px', fontWeight: '500', color: '#52B788' }}>
                       ${parseFloat(p.total).toFixed(2)}
                     </td>
-                    <td className="px-4 py-3 text-xs" style={{ color: '#888' }}>
+                    <td style={{ padding: '16px 20px', fontSize: '13px', color: '#888' }}>
                       {p.metodo_pago === 'transferencia' ? '🏦 Transferencia' : '💵 Efectivo'}
                     </td>
-                    <td className="px-4 py-3">
-                      <span style={{ background: estilo.bg, color: estilo.color }}
-                        className="text-xs font-medium px-2 py-1 rounded-full capitalize">
+                    <td style={{ padding: '16px 20px' }}>
+                      <span style={{ background: estilo.bg, color: estilo.color, fontSize: '12px', fontWeight: '500', padding: '4px 10px', borderRadius: '20px', textTransform: 'capitalize' }}>
                         {p.estatus.replace('_', ' ')}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-xs" style={{ color: '#888' }}>
+                    <td style={{ padding: '16px 20px', fontSize: '13px', color: '#888' }}>
                       {new Date(p.creado_en).toLocaleDateString('es-MX', {
                         day: '2-digit', month: 'short', year: 'numeric'
                       })}
                     </td>
-                    <td className="px-4 py-3">
+                    <td style={{ padding: '16px 20px' }}>
                       <button onClick={() => setModalPedido(p)}
-                        style={{ background: '#E8F5EE', color: '#2D6A4F' }}
-                        className="text-xs px-3 py-1.5 rounded-lg font-medium hover:opacity-80 flex items-center gap-1">
+                        style={{ background: '#E8F5EE', color: '#2D6A4F', fontSize: '12px', padding: '7px 14px', borderRadius: '8px', fontWeight: '500', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
+                        className="hover:opacity-80 transition-opacity">
                         Gestionar <ChevronRight size={12} />
                       </button>
                     </td>

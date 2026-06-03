@@ -7,26 +7,26 @@ function Modal({ titulo, onClose, children }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4"
       style={{ background: 'rgba(0,0,0,0.3)' }}>
-      <div style={{ background: '#fff', border: '0.5px solid #C8EAD8' }}
-        className="w-full max-w-md rounded-2xl">
-        <div style={{ borderBottom: '0.5px solid #C8EAD8' }}
-          className="flex items-center justify-between px-6 py-4">
-          <p className="font-medium text-sm" style={{ color: '#1A1A1A' }}>{titulo}</p>
-          <button onClick={onClose} style={{ color: '#aaa' }}><X size={18} /></button>
+      <div style={{ background: '#fff', border: '1px solid #C8EAD8', borderRadius: '16px', width: '100%', maxWidth: '440px' }}>
+        <div style={{ borderBottom: '1px solid #C8EAD8', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px' }}>
+          <p style={{ fontWeight: '500', fontSize: '14px', color: '#1A1A1A' }}>{titulo}</p>
+          <button onClick={onClose} style={{ color: '#aaa', background: 'none', border: 'none', cursor: 'pointer', display: 'flex' }}>
+            <X size={18} />
+          </button>
         </div>
-        <div className="p-6">{children}</div>
+        <div style={{ padding: '24px' }}>{children}</div>
       </div>
     </div>
   );
 }
 
 export default function AdminInventario() {
-  const [productos,  setProductos]  = useState([]);
-  const [stockBajo,  setStockBajo]  = useState([]);
-  const [cargando,   setCargando]   = useState(true);
-  const [modal,      setModal]      = useState(null);
-  const [form,       setForm]       = useState({ cantidad: '', motivo: '' });
-  const [guardando,  setGuardando]  = useState(false);
+  const [productos, setProductos] = useState([]);
+  const [stockBajo, setStockBajo] = useState([]);
+  const [cargando,  setCargando]  = useState(true);
+  const [modal,     setModal]     = useState(null);
+  const [form,      setForm]      = useState({ cantidad: '', motivo: '' });
+  const [guardando, setGuardando] = useState(false);
 
   const cargar = async () => {
     try {
@@ -86,24 +86,37 @@ export default function AdminInventario() {
     }
   };
 
-  return (
-    <div className="flex flex-col gap-6">
+  const inputStyle = {
+    border: '1px solid #C8EAD8',
+    padding: '11px 14px',
+    borderRadius: '10px',
+    fontSize: '14px',
+    outline: 'none',
+    width: '100%',
+    background: '#fff',
+    boxSizing: 'border-box'
+  };
 
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', padding: '8px 0' }}>
+
+      {/* Header */}
       <div>
         <h1 className="text-2xl font-medium" style={{ color: '#1A1A1A' }}>Inventario</h1>
-        <p className="text-sm mt-1" style={{ color: '#888' }}>{productos.length} productos en inventario</p>
+        <p className="text-sm" style={{ color: '#888', marginTop: '6px' }}>
+          {productos.length} productos en inventario
+        </p>
       </div>
 
       {/* Alertas stock bajo */}
       {stockBajo.length > 0 && (
-        <div style={{ background: '#FEF9E7', border: '0.5px solid #F6E05E' }}
-          className="rounded-xl p-4 flex items-start gap-3">
-          <AlertTriangle size={18} style={{ color: '#B7770D' }} className="flex-shrink-0 mt-0.5" />
+        <div style={{ background: '#FEF9E7', border: '1px solid #F6E05E', borderRadius: '12px', padding: '16px 20px', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+          <AlertTriangle size={18} style={{ color: '#B7770D', flexShrink: 0, marginTop: '2px' }} />
           <div>
-            <p className="text-sm font-medium mb-1" style={{ color: '#B7770D' }}>
+            <p style={{ fontSize: '14px', fontWeight: '500', color: '#B7770D', marginBottom: '4px' }}>
               {stockBajo.length} productos con stock bajo
             </p>
-            <p className="text-xs" style={{ color: '#B7770D' }}>
+            <p style={{ fontSize: '12px', color: '#B7770D' }}>
               {stockBajo.map(p => p.nombre).join(', ')}
             </p>
           </div>
@@ -112,18 +125,21 @@ export default function AdminInventario() {
 
       {/* Tabla */}
       {cargando ? (
-        <div className="flex flex-col gap-3">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {[...Array(5)].map((_, i) => (
-            <div key={i} style={{ background: '#E8F5EE' }} className="h-16 rounded-xl animate-pulse" />
+            <div key={i} style={{ background: '#E8F5EE', borderRadius: '12px', height: '64px' }}
+              className="animate-pulse" />
           ))}
         </div>
       ) : (
-        <div style={{ border: '0.5px solid #C8EAD8', background: '#fff' }} className="rounded-xl overflow-hidden">
+        <div style={{ border: '1px solid #C8EAD8', background: '#fff', borderRadius: '12px', overflow: 'hidden' }}>
           <table className="w-full">
-            <thead style={{ background: '#F7F7F5', borderBottom: '0.5px solid #C8EAD8' }}>
+            <thead style={{ background: '#F7F7F5', borderBottom: '1px solid #C8EAD8' }}>
               <tr>
                 {['Producto', 'Categoría', 'Stock actual', 'Stock mínimo', 'Estado', 'Acciones'].map((h) => (
-                  <th key={h} className="text-left px-4 py-3 text-xs font-medium" style={{ color: '#555' }}>{h}</th>
+                  <th key={h} style={{ textAlign: 'left', padding: '14px 20px', fontSize: '12px', fontWeight: '500', color: '#555' }}>
+                    {h}
+                  </th>
                 ))}
               </tr>
             </thead>
@@ -131,13 +147,13 @@ export default function AdminInventario() {
               {productos.map((p, i) => {
                 const bajo = p.stock_actual <= p.stock_minimo;
                 return (
-                  <tr key={p.id} style={{ borderBottom: i < productos.length - 1 ? '0.5px solid #F0F0F0' : 'none' }}>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <div style={{ background: '#E8F5EE' }} className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
+                  <tr key={p.id} style={{ borderBottom: i < productos.length - 1 ? '1px solid #F0F0F0' : 'none' }}>
+                    <td style={{ padding: '16px 20px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div style={{ background: '#E8F5EE', width: '36px', height: '36px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0 }}>
                           {p.imagen_url
-                            ? <img src={p.imagen_url} alt={p.nombre} className="w-full h-full object-cover" />
-                            : <div className="w-full h-full flex items-center justify-center">
+                            ? <img src={p.imagen_url} alt={p.nombre} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <svg width="16" height="16" viewBox="0 0 32 32" fill="none">
                                   <circle cx="16" cy="16" r="4" fill="#52B788"/>
                                   <ellipse cx="16" cy="9" rx="3" ry="5" fill="#52B788" opacity="0.6"/>
@@ -148,35 +164,35 @@ export default function AdminInventario() {
                               </div>
                           }
                         </div>
-                        <p className="text-sm font-medium" style={{ color: '#1A1A1A' }}>{p.nombre}</p>
+                        <p style={{ fontSize: '14px', fontWeight: '500', color: '#1A1A1A' }}>{p.nombre}</p>
                       </div>
                     </td>
-                    <td className="px-4 py-3">
-                      <span style={{ background: '#E8F5EE', color: '#2D6A4F' }}
-                        className="text-xs px-2 py-1 rounded-full">{p.categoria_nombre}</span>
+                    <td style={{ padding: '16px 20px' }}>
+                      <span style={{ background: '#E8F5EE', color: '#2D6A4F', fontSize: '12px', padding: '4px 10px', borderRadius: '20px' }}>
+                        {p.categoria_nombre}
+                      </span>
                     </td>
-                    <td className="px-4 py-3 text-sm font-medium" style={{ color: bajo ? '#9B2C2C' : '#1A1A1A' }}>
+                    <td style={{ padding: '16px 20px', fontSize: '14px', fontWeight: '500', color: bajo ? '#9B2C2C' : '#1A1A1A' }}>
                       {p.stock_actual}
                     </td>
-                    <td className="px-4 py-3 text-sm" style={{ color: '#888' }}>{p.stock_minimo}</td>
-                    <td className="px-4 py-3">
-                      <span style={{
-                        background: bajo ? '#FDE8E8' : '#E8F5EE',
-                        color:      bajo ? '#9B2C2C' : '#2D6A4F',
-                      }} className="text-xs px-2 py-1 rounded-full font-medium">
+                    <td style={{ padding: '16px 20px', fontSize: '14px', color: '#888' }}>
+                      {p.stock_minimo}
+                    </td>
+                    <td style={{ padding: '16px 20px' }}>
+                      <span style={{ background: bajo ? '#FDE8E8' : '#E8F5EE', color: bajo ? '#9B2C2C' : '#2D6A4F', fontSize: '12px', padding: '4px 10px', borderRadius: '20px', fontWeight: '500' }}>
                         {bajo ? 'Stock bajo' : 'Normal'}
                       </span>
                     </td>
-                    <td className="px-4 py-3">
-                      <div className="flex gap-2">
+                    <td style={{ padding: '16px 20px' }}>
+                      <div style={{ display: 'flex', gap: '8px' }}>
                         <button onClick={() => abrirEntrada(p)}
-                          style={{ background: '#E8F5EE', color: '#2D6A4F' }}
-                          className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg font-medium hover:opacity-80">
+                          style={{ background: '#E8F5EE', color: '#2D6A4F', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', padding: '7px 14px', borderRadius: '8px', fontWeight: '500', border: 'none', cursor: 'pointer' }}
+                          className="hover:opacity-80 transition-opacity">
                           <Plus size={12} /> Entrada
                         </button>
                         <button onClick={() => abrirAjuste(p)}
-                          style={{ background: '#F7F7F5', color: '#555', border: '0.5px solid #C8EAD8' }}
-                          className="text-xs px-3 py-1.5 rounded-lg font-medium hover:opacity-80">
+                          style={{ background: '#F7F7F5', color: '#555', border: '1px solid #C8EAD8', fontSize: '12px', padding: '7px 14px', borderRadius: '8px', fontWeight: '500', cursor: 'pointer' }}
+                          className="hover:opacity-80 transition-opacity">
                           Ajustar
                         </button>
                       </div>
@@ -194,34 +210,32 @@ export default function AdminInventario() {
         <Modal
           titulo={modal.tipo === 'entrada' ? `Entrada de stock — ${modal.producto.nombre}` : `Ajustar stock — ${modal.producto.nombre}`}
           onClose={() => setModal(null)}>
-          <div className="flex flex-col gap-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div>
-              <label className="text-xs font-medium block mb-1" style={{ color: '#555' }}>
+              <label style={{ fontSize: '12px', fontWeight: '500', color: '#555', display: 'block', marginBottom: '8px' }}>
                 {modal.tipo === 'entrada' ? 'Cantidad a agregar' : 'Nuevo stock total'}
               </label>
               <input type="number" min="0" value={form.cantidad}
                 onChange={(e) => setForm({ ...form, cantidad: e.target.value })}
-                placeholder="0"
-                style={{ border: '0.5px solid #C8EAD8' }}
-                className="w-full px-3 py-2.5 rounded-lg text-sm outline-none focus:border-[#52B788]" />
+                placeholder="0" style={inputStyle} />
             </div>
             <div>
-              <label className="text-xs font-medium block mb-1" style={{ color: '#555' }}>Motivo</label>
+              <label style={{ fontSize: '12px', fontWeight: '500', color: '#555', display: 'block', marginBottom: '8px' }}>
+                Motivo
+              </label>
               <input type="text" value={form.motivo}
                 onChange={(e) => setForm({ ...form, motivo: e.target.value })}
-                placeholder="Motivo del movimiento"
-                style={{ border: '0.5px solid #C8EAD8' }}
-                className="w-full px-3 py-2.5 rounded-lg text-sm outline-none focus:border-[#52B788]" />
+                placeholder="Motivo del movimiento" style={inputStyle} />
             </div>
-            <div className="flex gap-3 pt-2">
+            <div style={{ display: 'flex', gap: '12px', paddingTop: '4px' }}>
               <button onClick={() => setModal(null)}
-                style={{ border: '0.5px solid #C8EAD8', color: '#555' }}
-                className="flex-1 py-2.5 rounded-xl text-sm hover:bg-[#F7F7F5]">
+                style={{ flex: 1, padding: '11px', borderRadius: '10px', fontSize: '14px', border: '1px solid #C8EAD8', color: '#555', background: '#fff', cursor: 'pointer' }}
+                className="hover:bg-[#F7F7F5] transition-colors">
                 Cancelar
               </button>
               <button onClick={handleGuardar} disabled={guardando}
-                style={{ background: guardando ? '#a0d4bc' : '#52B788' }}
-                className="flex-1 text-white py-2.5 rounded-xl text-sm font-medium hover:opacity-90">
+                style={{ flex: 1, padding: '11px', borderRadius: '10px', fontSize: '14px', fontWeight: '500', background: guardando ? '#a0d4bc' : '#52B788', color: '#fff', border: 'none', cursor: 'pointer' }}
+                className="hover:opacity-90 transition-opacity">
                 {guardando ? 'Guardando...' : 'Confirmar'}
               </button>
             </div>
