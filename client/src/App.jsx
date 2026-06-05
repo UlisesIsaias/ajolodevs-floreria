@@ -24,7 +24,7 @@ import AdminCategorias from './pages/admin/Categorias';
 import AdminPedidos   from './pages/admin/Pedidos';
 import AdminInventario from './pages/admin/Inventario';
 import AdminReportes  from './pages/admin/Reportes';
-import AdminUsuarios from './pages/admin/Usuarios';
+import AdminUsuarios from './pages/admin/AdminUsuarios';
 
 // Rutas protegidas
 const RutaPrivada = ({ children }) => {
