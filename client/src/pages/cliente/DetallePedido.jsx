@@ -52,7 +52,6 @@ export default function DetallePedido() {
       const formData = new FormData();
       formData.append('referencia', referencia);
       if (archivo) formData.append('comprobante', archivo);
-
       await api.post(`/pagos/${id}/comprobante`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
@@ -67,8 +66,8 @@ export default function DetallePedido() {
 
   if (cargando) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-10">
-        <div style={{ background: '#E8F5EE' }} className="h-96 rounded-2xl animate-pulse" />
+      <div style={{ maxWidth: '896px', margin: '0 auto', padding: '40px 24px' }}>
+        <div style={{ background: '#E8F5EE', borderRadius: '16px', height: '384px' }} className="animate-pulse" />
       </div>
     );
   }
@@ -76,60 +75,71 @@ export default function DetallePedido() {
   if (!pedido) return null;
 
   const { pedido: info, items, historial } = pedido;
-  const estilo   = estatusColor[info.estatus] || estatusColor.pendiente;
+  const estilo     = estatusColor[info.estatus] || estatusColor.pendiente;
   const pasoActual = pasos.indexOf(info.estatus);
 
+  const inputStyle = {
+    border: '1px solid #C8EAD8',
+    padding: '11px 14px',
+    borderRadius: '10px',
+    fontSize: '14px',
+    outline: 'none',
+    width: '100%',
+    background: '#fff',
+    boxSizing: 'border-box'
+  };
+
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10">
+    <div style={{ maxWidth: '896px', margin: '0 auto', padding: '40px 24px' }}>
 
       {/* Header */}
-      <div className="flex items-center gap-4 mb-8">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px' }}>
         <button onClick={() => navigate('/mis-pedidos')}
-          style={{ color: '#888' }} className="hover:text-[#52B788] transition-colors">
+          style={{ color: '#888', background: 'none', border: 'none', cursor: 'pointer', display: 'flex' }}
+          className="hover:text-[#52B788] transition-colors">
           <ArrowLeft size={20} />
         </button>
         <div>
-          <h1 className="text-2xl font-medium" style={{ color: '#1A1A1A' }}>
+          <h1 style={{ fontSize: '24px', fontWeight: '500', color: '#1A1A1A' }}>
             Pedido #{info.id}
           </h1>
-          <p className="text-sm" style={{ color: '#888' }}>
+          <p style={{ fontSize: '14px', color: '#888', marginTop: '4px' }}>
             {new Date(info.creado_en).toLocaleDateString('es-MX', {
               day: '2-digit', month: 'long', year: 'numeric'
             })}
           </p>
         </div>
-        <span style={{ background: estilo.bg, color: estilo.color }}
-          className="ml-auto text-xs font-medium px-3 py-1.5 rounded-full">
+        <span style={{ background: estilo.bg, color: estilo.color, fontSize: '12px', fontWeight: '500', padding: '6px 14px', borderRadius: '20px', marginLeft: 'auto', textTransform: 'capitalize' }}>
           {info.estatus.replace('_', ' ')}
         </span>
       </div>
 
       {/* Progreso */}
       {info.estatus !== 'cancelado' && (
-        <div style={{ border: '0.5px solid #C8EAD8', background: '#fff' }}
-          className="rounded-xl p-6 mb-6">
-          <p className="text-xs font-medium mb-4" style={{ color: '#555' }}>Estado del pedido</p>
-          <div className="flex items-center justify-between">
+        <div style={{ border: '1px solid #C8EAD8', background: '#fff', borderRadius: '12px', padding: '28px 24px', marginBottom: '24px' }}>
+          <p style={{ fontSize: '13px', fontWeight: '500', color: '#555', marginBottom: '20px' }}>
+            Estado del pedido
+          </p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             {pasos.map((paso, i) => (
-              <div key={paso} className="flex items-center flex-1">
-                <div className="flex flex-col items-center">
+              <div key={paso} style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <div style={{
                     background: i <= pasoActual ? '#52B788' : '#E8F5EE',
-                    border: `0.5px solid ${i <= pasoActual ? '#52B788' : '#C8EAD8'}`
-                  }} className="w-8 h-8 rounded-full flex items-center justify-center">
+                    border: `1px solid ${i <= pasoActual ? '#52B788' : '#C8EAD8'}`,
+                    width: '36px', height: '36px', borderRadius: '50%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                  }}>
                     {i <= pasoActual
                       ? <CheckCircle size={16} color="white" />
                       : <Clock size={14} style={{ color: '#aaa' }} />}
                   </div>
-                  <p className="text-xs mt-2 capitalize" style={{
-                    color: i <= pasoActual ? '#52B788' : '#aaa'
-                  }}>
+                  <p style={{ fontSize: '11px', marginTop: '8px', textTransform: 'capitalize', color: i <= pasoActual ? '#52B788' : '#aaa' }}>
                     {paso.replace('_', ' ')}
                   </p>
                 </div>
                 {i < pasos.length - 1 && (
-                  <div style={{ background: i < pasoActual ? '#52B788' : '#C8EAD8' }}
-                    className="flex-1 h-0.5 mx-2 mb-5" />
+                  <div style={{ background: i < pasoActual ? '#52B788' : '#C8EAD8', flex: 1, height: '2px', margin: '0 8px', marginBottom: '20px' }} />
                 )}
               </div>
             ))}
@@ -137,73 +147,70 @@ export default function DetallePedido() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3" style={{ gap: '20px' }}>
 
-        {/* Items */}
-        <div className="lg:col-span-2 flex flex-col gap-4">
-          <div style={{ border: '0.5px solid #C8EAD8', background: '#fff' }}
-            className="rounded-xl p-5">
-            <p className="text-sm font-medium mb-4" style={{ color: '#1A1A1A' }}>
+        {/* Items + comprobante */}
+        <div className="lg:col-span-2" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+
+          {/* Productos */}
+          <div style={{ border: '1px solid #C8EAD8', background: '#fff', borderRadius: '12px', padding: '24px' }}>
+            <p style={{ fontSize: '14px', fontWeight: '500', color: '#1A1A1A', marginBottom: '16px' }}>
               Productos ({items.length})
             </p>
-            <div className="flex flex-col gap-3">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {items.map((item) => (
-                <div key={item.id} className="flex justify-between items-center py-2"
-                  style={{ borderBottom: '0.5px solid #F0F0F0' }}>
+                <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 0', borderBottom: '1px solid #F0F0F0' }}>
                   <div>
-                    <p className="text-sm font-medium" style={{ color: '#1A1A1A' }}>
+                    <p style={{ fontSize: '14px', fontWeight: '500', color: '#1A1A1A' }}>
                       {item.nombre_producto}
                     </p>
-                    <p className="text-xs" style={{ color: '#888' }}>
+                    <p style={{ fontSize: '12px', color: '#888', marginTop: '2px' }}>
                       ${parseFloat(item.precio_unitario).toFixed(2)} x {item.cantidad}
                     </p>
                   </div>
-                  <p className="text-sm font-medium" style={{ color: '#52B788' }}>
+                  <p style={{ fontSize: '14px', fontWeight: '500', color: '#52B788' }}>
                     ${parseFloat(item.subtotal).toFixed(2)}
                   </p>
                 </div>
               ))}
             </div>
-            <div className="flex justify-between mt-4 pt-3"
-              style={{ borderTop: '0.5px solid #C8EAD8' }}>
-              <p className="font-medium text-sm" style={{ color: '#1A1A1A' }}>Total</p>
-              <p className="font-medium text-lg" style={{ color: '#52B788' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #C8EAD8' }}>
+              <p style={{ fontSize: '14px', fontWeight: '500', color: '#1A1A1A' }}>Total</p>
+              <p style={{ fontSize: '20px', fontWeight: '600', color: '#52B788' }}>
                 ${parseFloat(info.total).toFixed(2)}
               </p>
             </div>
           </div>
 
-          {/* Comprobante — solo si es transferencia y está pendiente */}
+          {/* Comprobante */}
           {info.metodo_pago === 'transferencia' && pago?.estatus === 'pendiente' && (
-            <div style={{ border: '0.5px solid #C8EAD8', background: '#fff' }}
-              className="rounded-xl p-5">
-              <p className="text-sm font-medium mb-1" style={{ color: '#1A1A1A' }}>
+            <div style={{ border: '1px solid #C8EAD8', background: '#fff', borderRadius: '12px', padding: '24px' }}>
+              <p style={{ fontSize: '14px', fontWeight: '500', color: '#1A1A1A', marginBottom: '6px' }}>
                 Subir comprobante de pago
               </p>
-              <p className="text-xs mb-4" style={{ color: '#888' }}>
+              <p style={{ fontSize: '13px', color: '#888', marginBottom: '20px' }}>
                 Transfiere a la cuenta CLABE: <strong>123456789012345678</strong> y sube tu comprobante
               </p>
-              <div className="flex flex-col gap-3">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <input
                   type="text"
                   placeholder="Número de referencia de la transferencia"
                   value={referencia}
                   onChange={(e) => setReferencia(e.target.value)}
-                  style={{ border: '0.5px solid #C8EAD8' }}
-                  className="w-full px-3 py-2.5 rounded-lg text-sm outline-none focus:border-[#52B788]"
+                  style={inputStyle}
                 />
-                <label style={{ border: '0.5px dashed #C8EAD8', background: '#F7F7F5' }}
-                  className="flex flex-col items-center justify-center py-6 rounded-xl cursor-pointer hover:bg-[#E8F5EE] transition-colors">
-                  <Upload size={20} style={{ color: '#52B788' }} className="mb-2" />
-                  <p className="text-xs" style={{ color: '#555' }}>
+                <label style={{ border: '1px dashed #C8EAD8', background: '#F7F7F5', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '28px', borderRadius: '12px', cursor: 'pointer' }}
+                  className="hover:bg-[#E8F5EE] transition-colors">
+                  <Upload size={20} style={{ color: '#52B788', marginBottom: '8px' }} />
+                  <p style={{ fontSize: '13px', color: '#555' }}>
                     {archivo ? archivo.name : 'Seleccionar comprobante (imagen)'}
                   </p>
-                  <input type="file" accept="image/*" className="hidden"
+                  <input type="file" accept="image/*" style={{ display: 'none' }}
                     onChange={(e) => setArchivo(e.target.files[0])} />
                 </label>
                 <button onClick={handleSubirComprobante} disabled={subiendo}
-                  style={{ background: subiendo ? '#a0d4bc' : '#52B788' }}
-                  className="w-full text-white py-2.5 rounded-xl text-sm font-medium hover:opacity-90 transition-opacity">
+                  style={{ background: subiendo ? '#a0d4bc' : '#52B788', width: '100%', padding: '13px', borderRadius: '10px', fontSize: '14px', fontWeight: '500', color: '#fff', border: 'none', cursor: 'pointer' }}
+                  className="hover:opacity-90 transition-opacity">
                   {subiendo ? 'Enviando...' : 'Enviar comprobante'}
                 </button>
               </div>
@@ -213,15 +220,15 @@ export default function DetallePedido() {
           {/* Estado del pago */}
           {pago && pago.estatus !== 'pendiente' && (
             <div style={{
-              border: `0.5px solid ${pago.estatus === 'confirmado' ? '#C8EAD8' : '#FED7D7'}`,
-              background: pago.estatus === 'confirmado' ? '#E8F5EE' : '#FFF5F5'
-            }} className="rounded-xl p-4 flex items-center gap-3">
+              border: `1px solid ${pago.estatus === 'confirmado' ? '#C8EAD8' : '#FED7D7'}`,
+              background: pago.estatus === 'confirmado' ? '#E8F5EE' : '#FFF5F5',
+              borderRadius: '12px', padding: '16px 20px',
+              display: 'flex', alignItems: 'center', gap: '12px'
+            }}>
               <CheckCircle size={18} style={{ color: pago.estatus === 'confirmado' ? '#52B788' : '#e53e3e' }} />
-              <p className="text-sm font-medium" style={{
-                color: pago.estatus === 'confirmado' ? '#2D6A4F' : '#9B2C2C'
-              }}>
-                {pago.estatus === 'confirmado'    ? 'Pago confirmado' :
-                 pago.estatus === 'verificando'   ? 'Pago en verificación' :
+              <p style={{ fontSize: '14px', fontWeight: '500', color: pago.estatus === 'confirmado' ? '#2D6A4F' : '#9B2C2C' }}>
+                {pago.estatus === 'confirmado'  ? 'Pago confirmado' :
+                 pago.estatus === 'verificando' ? 'Pago en verificación' :
                  'Pago rechazado — vuelve a enviar tu comprobante'}
               </p>
             </div>
@@ -229,27 +236,25 @@ export default function DetallePedido() {
         </div>
 
         {/* Historial */}
-        <div style={{ border: '0.5px solid #C8EAD8', background: '#fff' }}
-          className="rounded-xl p-5 h-fit">
-          <p className="text-sm font-medium mb-4" style={{ color: '#1A1A1A' }}>Historial</p>
-          <div className="flex flex-col gap-3">
+        <div style={{ border: '1px solid #C8EAD8', background: '#fff', borderRadius: '12px', padding: '24px', height: 'fit-content' }}>
+          <p style={{ fontSize: '14px', fontWeight: '500', color: '#1A1A1A', marginBottom: '20px' }}>Historial</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             {historial.map((h, i) => (
-              <div key={h.id} className="flex gap-3">
-                <div className="flex flex-col items-center">
-                  <div style={{ background: '#52B788' }}
-                    className="w-2 h-2 rounded-full flex-shrink-0 mt-1" />
+              <div key={h.id} style={{ display: 'flex', gap: '12px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <div style={{ background: '#52B788', width: '8px', height: '8px', borderRadius: '50%', flexShrink: 0, marginTop: '4px' }} />
                   {i < historial.length - 1 && (
-                    <div style={{ background: '#C8EAD8' }} className="w-0.5 flex-1 mt-1" />
+                    <div style={{ background: '#C8EAD8', width: '1px', flex: 1, marginTop: '4px' }} />
                   )}
                 </div>
-                <div className="pb-3">
-                  <p className="text-xs font-medium capitalize" style={{ color: '#1A1A1A' }}>
+                <div style={{ paddingBottom: '16px' }}>
+                  <p style={{ fontSize: '13px', fontWeight: '500', textTransform: 'capitalize', color: '#1A1A1A' }}>
                     {h.estatus.replace('_', ' ')}
                   </p>
                   {h.comentario && (
-                    <p className="text-xs" style={{ color: '#888' }}>{h.comentario}</p>
+                    <p style={{ fontSize: '12px', color: '#888', marginTop: '2px' }}>{h.comentario}</p>
                   )}
-                  <p className="text-xs mt-1" style={{ color: '#aaa' }}>
+                  <p style={{ fontSize: '12px', color: '#aaa', marginTop: '4px' }}>
                     {new Date(h.creado_en).toLocaleDateString('es-MX', {
                       day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
                     })}

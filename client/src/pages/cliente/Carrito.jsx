@@ -35,20 +35,19 @@ export default function Carrito() {
 
   if (carrito.items.length === 0) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-20 text-center">
-        <div style={{ background: '#E8F5EE' }}
-          className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+      <div style={{ maxWidth: '560px', margin: '0 auto', padding: '80px 24px', textAlign: 'center' }}>
+        <div style={{ background: '#E8F5EE', width: '80px', height: '80px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
           <ShoppingBag size={32} style={{ color: '#52B788' }} />
         </div>
-        <h2 className="text-xl font-medium mb-2" style={{ color: '#1A1A1A' }}>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', color: '#1A1A1A', marginBottom: '8px' }}>
           Tu carrito está vacío
         </h2>
-        <p className="text-sm mb-8" style={{ color: '#888' }}>
+        <p style={{ fontSize: '14px', color: '#888', marginBottom: '32px' }}>
           Explora nuestro catálogo y agrega flores a tu carrito
         </p>
         <Link to="/catalogo"
-          style={{ background: '#52B788' }}
-          className="text-white px-8 py-3 rounded-xl text-sm font-medium hover:opacity-90 transition-opacity inline-block">
+          style={{ background: '#52B788', color: '#fff', padding: '12px 32px', borderRadius: '10px', fontSize: '14px', fontWeight: '500', textDecoration: 'none', display: 'inline-block' }}
+          className="hover:opacity-90 transition-opacity">
           Ver catálogo
         </Link>
       </div>
@@ -56,38 +55,35 @@ export default function Carrito() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
+    <div style={{ maxWidth: '1152px', margin: '0 auto', padding: '40px 24px' }}>
 
       {/* Header */}
-      <div className="flex items-center gap-4 mb-8">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px' }}>
         <button onClick={() => navigate('/catalogo')}
-          style={{ color: '#888' }}
+          style={{ color: '#888', background: 'none', border: 'none', cursor: 'pointer', display: 'flex' }}
           className="hover:text-[#52B788] transition-colors">
           <ArrowLeft size={20} />
         </button>
         <div>
-          <h1 className="text-2xl font-medium" style={{ color: '#1A1A1A' }}>Mi carrito</h1>
-          <p className="text-sm" style={{ color: '#888' }}>{carrito.items.length} productos</p>
+          <h1 style={{ fontSize: '24px', fontWeight: '500', color: '#1A1A1A' }}>Mi carrito</h1>
+          <p style={{ fontSize: '14px', color: '#888', marginTop: '4px' }}>{carrito.items.length} productos</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3" style={{ gap: '28px' }}>
 
         {/* Items */}
-        <div className="lg:col-span-2 flex flex-col gap-3">
+        <div className="lg:col-span-2" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {carrito.items.map((item) => (
             <div key={item.id}
-              style={{ border: '0.5px solid #C8EAD8', background: '#fff' }}
-              className="rounded-xl p-4 flex gap-4">
+              style={{ border: '1px solid #C8EAD8', background: '#fff', borderRadius: '12px', padding: '20px', display: 'flex', gap: '16px' }}>
 
               {/* Imagen */}
-              <div style={{ background: '#E8F5EE' }}
-                className="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+              <div style={{ background: '#E8F5EE', width: '80px', height: '80px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0 }}>
                 {item.imagen_url ? (
-                  <img src={item.imagen_url} alt={item.nombre}
-                    className="w-full h-full object-cover" />
+                  <img src={item.imagen_url} alt={item.nombre} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center">
+                  <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
                       <circle cx="16" cy="16" r="4" fill="#52B788"/>
                       <ellipse cx="16" cy="9"  rx="3" ry="5" fill="#52B788" opacity="0.6"/>
@@ -100,18 +96,18 @@ export default function Carrito() {
               </div>
 
               {/* Info */}
-              <div className="flex-1">
-                <h3 className="font-medium text-sm mb-1" style={{ color: '#1A1A1A' }}>
+              <div style={{ flex: 1 }}>
+                <h3 style={{ fontWeight: '500', fontSize: '14px', color: '#1A1A1A', marginBottom: '6px' }}>
                   {item.nombre}
                 </h3>
-                <p className="text-sm mb-2" style={{ color: '#52B788' }}>
+                <p style={{ fontSize: '14px', color: '#52B788', marginBottom: '12px' }}>
                   ${parseFloat(item.precio).toFixed(2)} c/u
                 </p>
-                <div className="flex items-center justify-between">
-                  <p className="text-xs" style={{ color: '#888' }}>
-                    Cantidad: <span className="font-medium" style={{ color: '#1A1A1A' }}>{item.cantidad}</span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <p style={{ fontSize: '13px', color: '#888' }}>
+                    Cantidad: <span style={{ fontWeight: '500', color: '#1A1A1A' }}>{item.cantidad}</span>
                   </p>
-                  <p className="text-sm font-medium" style={{ color: '#1A1A1A' }}>
+                  <p style={{ fontSize: '14px', fontWeight: '500', color: '#1A1A1A' }}>
                     ${parseFloat(item.subtotal).toFixed(2)}
                   </p>
                 </div>
@@ -119,79 +115,77 @@ export default function Carrito() {
 
               {/* Eliminar */}
               <button onClick={() => eliminarItem(item.producto_id)}
-                className="hover:text-red-400 transition-colors self-start"
-                style={{ color: '#ccc' }}>
+                style={{ color: '#ccc', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignSelf: 'flex-start' }}
+                className="hover:text-red-400 transition-colors">
                 <Trash2 size={16} />
               </button>
-
             </div>
           ))}
 
-          {/* Vaciar */}
           <button onClick={vaciarCarrito}
-            className="text-xs hover:text-red-400 transition-colors self-start"
-            style={{ color: '#aaa' }}>
+            style={{ fontSize: '12px', color: '#aaa', background: 'none', border: 'none', cursor: 'pointer', alignSelf: 'flex-start', marginTop: '4px' }}
+            className="hover:text-red-400 transition-colors">
             Vaciar carrito
           </button>
         </div>
 
         {/* Resumen */}
-        <div className="flex flex-col gap-4">
-          <div style={{ border: '0.5px solid #C8EAD8', background: '#fff' }}
-            className="rounded-xl p-6">
-            <h2 className="font-medium text-base mb-5" style={{ color: '#1A1A1A' }}>
+        <div>
+          <div style={{ border: '1px solid #C8EAD8', background: '#fff', borderRadius: '12px', padding: '28px 24px' }}>
+            <h2 style={{ fontWeight: '500', fontSize: '16px', color: '#1A1A1A', marginBottom: '20px' }}>
               Resumen del pedido
             </h2>
 
             {/* Items resumen */}
-            <div className="flex flex-col gap-2 mb-4">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '16px' }}>
               {carrito.items.map((item) => (
-                <div key={item.id} className="flex justify-between text-xs" style={{ color: '#888' }}>
+                <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#888' }}>
                   <span>{item.nombre} x{item.cantidad}</span>
                   <span>${parseFloat(item.subtotal).toFixed(2)}</span>
                 </div>
               ))}
             </div>
 
-            <div style={{ borderTop: '0.5px solid #C8EAD8' }} className="pt-4 mb-5">
-              <div className="flex justify-between font-medium">
-                <span className="text-sm" style={{ color: '#1A1A1A' }}>Total</span>
-                <span className="text-lg" style={{ color: '#52B788' }}>
+            <div style={{ borderTop: '1px solid #C8EAD8', paddingTop: '16px', marginBottom: '24px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', fontWeight: '500', color: '#1A1A1A' }}>Total</span>
+                <span style={{ fontSize: '20px', fontWeight: '600', color: '#52B788' }}>
                   ${parseFloat(carrito.total).toFixed(2)}
                 </span>
               </div>
             </div>
 
             {/* Método de pago */}
-            <div className="mb-4">
-              <p className="text-xs font-medium mb-2" style={{ color: '#555' }}>
+            <div style={{ marginBottom: '20px' }}>
+              <p style={{ fontSize: '12px', fontWeight: '500', color: '#555', marginBottom: '10px' }}>
                 Método de pago
               </p>
-              <div className="flex flex-col gap-2">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {[
-                  { value: 'transferencia',          label: '🏦 Transferencia bancaria' },
-                  { value: 'efectivo_contra_entrega', label: '💵 Efectivo contra entrega' },
+                  { value: 'transferencia',           label: '🏦 Transferencia bancaria'   },
+                  { value: 'efectivo_contra_entrega', label: '💵 Efectivo contra entrega'  },
                 ].map((m) => (
                   <label key={m.value}
                     style={{
-                      border: `0.5px solid ${metodoPago === m.value ? '#52B788' : '#C8EAD8'}`,
+                      border: `1px solid ${metodoPago === m.value ? '#52B788' : '#C8EAD8'}`,
                       background: metodoPago === m.value ? '#E8F5EE' : '#fff',
-                    }}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer transition-colors">
+                      display: 'flex', alignItems: 'center', gap: '12px',
+                      padding: '11px 14px', borderRadius: '10px', cursor: 'pointer'
+                    }}>
                     <input type="radio" name="metodo_pago"
                       value={m.value}
                       checked={metodoPago === m.value}
                       onChange={(e) => setMetodoPago(e.target.value)}
                       className="accent-[#52B788]" />
-                    <span className="text-xs" style={{ color: '#555' }}>{m.label}</span>
+                    <span style={{ fontSize: '13px', color: '#555' }}>{m.label}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             {/* Notas */}
-            <div className="mb-5">
-              <p className="text-xs font-medium mb-2" style={{ color: '#555' }}>
+            <div style={{ marginBottom: '24px' }}>
+              <p style={{ fontSize: '12px', fontWeight: '500', color: '#555', marginBottom: '10px' }}>
                 Notas del pedido (opcional)
               </p>
               <textarea
@@ -199,20 +193,18 @@ export default function Carrito() {
                 onChange={(e) => setNotas(e.target.value)}
                 placeholder="Instrucciones de entrega, dedicatoria..."
                 rows={3}
-                style={{ border: '0.5px solid #C8EAD8' }}
-                className="w-full px-3 py-2 rounded-lg text-xs outline-none focus:border-[#52B788] transition-colors resize-none"
+                style={{ border: '1px solid #C8EAD8', padding: '11px 14px', borderRadius: '10px', fontSize: '13px', outline: 'none', width: '100%', resize: 'none', boxSizing: 'border-box' }}
               />
             </div>
 
-            {/* Botón */}
             <button onClick={handlePedido} disabled={creando}
-              style={{ background: creando ? '#a0d4bc' : '#52B788' }}
-              className="w-full text-white py-3 rounded-xl text-sm font-medium hover:opacity-90 transition-opacity">
+              style={{ background: creando ? '#a0d4bc' : '#52B788', width: '100%', padding: '13px', borderRadius: '10px', fontSize: '14px', fontWeight: '500', color: '#fff', border: 'none', cursor: 'pointer' }}
+              className="hover:opacity-90 transition-opacity">
               {creando ? 'Procesando...' : 'Confirmar pedido'}
             </button>
-
           </div>
         </div>
+
       </div>
     </div>
   );
