@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Truck, Shield, Clock, Star } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const beneficios = [
   { icono: <Truck size={22} />,  titulo: 'Envío mismo día',      desc: 'Pedidos antes de las 2pm' },
@@ -16,14 +17,14 @@ const categorias = [
 ];
 
 export default function Home() {
+  const { usuario } = useAuth();
+
   return (
     <div style={{ background: '#fff', fontFamily: "'DM Sans', sans-serif", fontSize: '17px' }}>
 
-      {/* ── ESTILOS GLOBALES + RESPONSIVOS ───────────────── */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-        /* Hover effects */
         .cat-card:hover .cat-arrow { opacity: 1 !important; }
         .cat-card:hover { border-color: #52B788 !important; box-shadow: 0 12px 40px rgba(82,183,136,.15) !important; transform: translateY(-4px); }
         .cat-card { transition: all .25s; }
@@ -40,7 +41,6 @@ export default function Home() {
         .benefit-card:hover { border-color: #52B788 !important; box-shadow: 0 8px 24px rgba(82,183,136,.12) !important; }
         .benefit-card { transition: all .25s; }
 
-        /* ── LAYOUTS BASE (desktop) ── */
         .hero-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -78,13 +78,8 @@ export default function Home() {
         .beneficios-pad { padding: 56px 40px; }
         .cta-pad { padding: 96px 40px; }
 
-        /* ── TABLET ── */
         @media (max-width: 900px) {
-          .hero-grid {
-            grid-template-columns: 1fr;
-            padding: 48px 24px;
-            gap: 40px;
-          }
+          .hero-grid { grid-template-columns: 1fr; padding: 48px 24px; gap: 40px; }
           .hero-visual-wrap { height: 340px; }
           .hero-h1 { font-size: 46px !important; }
           .beneficios-grid { grid-template-columns: repeat(2, 1fr); }
@@ -97,7 +92,6 @@ export default function Home() {
           .cta-h2 { font-size: 38px !important; }
         }
 
-        /* ── MÓVIL ── */
         @media (max-width: 540px) {
           .hero-grid { padding: 36px 16px; gap: 32px; }
           .hero-h1 { font-size: 34px !important; }
@@ -127,7 +121,7 @@ export default function Home() {
         }
       `}</style>
 
-      {/* ── PROMO BAR ────────────────────────────────────── */}
+      {/* PROMO BAR */}
       <div style={{ background: '#2D6A4F', color: '#fff', textAlign: 'center', padding: '10px 16px', letterSpacing: '.4px' }}>
         <span className="promo-bar-text" style={{ fontSize: '13px', fontWeight: 500 }}>
           🚚 Envío mismo día en pedidos antes de las 2pm &nbsp;
@@ -136,7 +130,7 @@ export default function Home() {
         </span>
       </div>
 
-      {/* ── HERO ─────────────────────────────────────────── */}
+      {/* HERO */}
       <section style={{ background: 'linear-gradient(135deg, #f8fffe 0%, #e8f5ee 50%, #f0fff8 100%)', borderBottom: '1px solid #C8EAD8' }}>
         <div className="hero-grid">
 
@@ -159,10 +153,12 @@ export default function Home() {
                 style={{ background: '#52B788', color: '#fff', padding: '14px 32px', borderRadius: '100px', fontSize: '15px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
                 Explorar catálogo <ArrowRight size={18} />
               </Link>
-              <Link to="/registro"
-                style={{ background: 'transparent', border: '1.5px solid #C8EAD8', color: '#2D6A4F', padding: '14px 28px', borderRadius: '100px', fontSize: '15px', fontWeight: 500, textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                Crear cuenta gratis
-              </Link>
+              {!usuario && (
+                <Link to="/registro"
+                  style={{ background: 'transparent', border: '1.5px solid #C8EAD8', color: '#2D6A4F', padding: '14px 28px', borderRadius: '100px', fontSize: '15px', fontWeight: 500, textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  Crear cuenta gratis
+                </Link>
+              )}
             </div>
             {/* Stats */}
             <div className="hero-stats" style={{ display: 'flex', gap: '36px' }}>
@@ -195,7 +191,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            {/* Badge: entrega */}
             <div className="badge-entrega" style={{ position: 'absolute', top: '10px', right: '10px', background: '#fff', border: '0.5px solid #C8EAD8', borderRadius: '16px', padding: '10px 16px', boxShadow: '0 8px 24px rgba(0,0,0,.08)', display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span style={{ fontSize: '20px' }}>🚚</span>
               <div>
@@ -203,11 +198,9 @@ export default function Home() {
                 <div style={{ fontSize: '14px', fontWeight: 600, color: '#2D6A4F' }}>Hoy mismo</div>
               </div>
             </div>
-            {/* Badge: rating */}
             <div className="badge-rating" style={{ position: 'absolute', bottom: '80px', right: '0', background: '#52B788', color: '#fff', borderRadius: '14px', padding: '10px 16px', boxShadow: '0 8px 20px rgba(82,183,136,.3)', fontSize: '14px', fontWeight: 600 }}>
               ⭐ 4.9 / 5
             </div>
-            {/* Badge: arreglos */}
             <div className="badge-arreglos" style={{ position: 'absolute', bottom: '10px', left: '30px', background: '#fff', border: '0.5px solid #C8EAD8', borderRadius: '16px', padding: '10px 16px', boxShadow: '0 8px 24px rgba(0,0,0,.08)', display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span style={{ fontSize: '20px' }}>💐</span>
               <div>
@@ -220,7 +213,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── BENEFICIOS ───────────────────────────────────── */}
+      {/* BENEFICIOS */}
       <section className="beneficios-pad" style={{ borderBottom: '1px solid #C8EAD8' }}>
         <div className="beneficios-grid">
           {beneficios.map((b, i) => (
@@ -236,7 +229,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CATEGORÍAS ───────────────────────────────────── */}
+      {/* CATEGORÍAS */}
       <section className="section-pad" style={{ background: '#FAFAF8' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
@@ -272,7 +265,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── COMO FUNCIONA ────────────────────────────────── */}
+      {/* COMO FUNCIONA */}
       <section className="section-pad" style={{ borderTop: '1px solid #C8EAD8', borderBottom: '1px solid #C8EAD8', background: '#fff' }}>
         <div style={{ maxWidth: '960px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '56px' }}>
@@ -305,7 +298,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CTA FINAL ────────────────────────────────────── */}
+      {/* CTA FINAL */}
       <section className="cta-pad" style={{ textAlign: 'center', background: '#1A1A1A' }}>
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <p style={{ fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#52B788', marginBottom: '16px' }}>
@@ -324,11 +317,13 @@ export default function Home() {
               style={{ background: '#52B788', color: '#fff', padding: '16px 40px', borderRadius: '100px', fontSize: '15px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
               Ver catálogo <ArrowRight size={16} />
             </Link>
-            <Link to="/registro"
-              className="cta-btn-outline"
-              style={{ background: 'transparent', border: '1.5px solid #333', color: '#fff', padding: '16px 36px', borderRadius: '100px', fontSize: '15px', fontWeight: 500, textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              Crear cuenta gratis
-            </Link>
+            {!usuario && (
+              <Link to="/registro"
+                className="cta-btn-outline"
+                style={{ background: 'transparent', border: '1.5px solid #333', color: '#fff', padding: '16px 36px', borderRadius: '100px', fontSize: '15px', fontWeight: 500, textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                Crear cuenta gratis
+              </Link>
+            )}
           </div>
         </div>
       </section>
