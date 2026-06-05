@@ -33,24 +33,16 @@ export default function LayoutAdmin() {
       <aside style={{ borderRight: '0.5px solid #C8EAD8', background: '#fff', width: '230px', minWidth: '230px' }}
         className="flex flex-col sticky top-0 h-screen">
 
-        {/* Logo */}
-        <div style={{ borderBottom: '0.5px solid #C8EAD8' }}
-          className="flex items-center gap-3 px-5 py-5">
-          <div style={{ background: '#52B788' }}
-            className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0">
-            <svg width="18" height="18" viewBox="0 0 32 32" fill="none">
-              <circle cx="16" cy="16" r="4" fill="white"/>
-              <ellipse cx="16" cy="9"  rx="3" ry="5" fill="white" opacity="0.9"/>
-              <ellipse cx="16" cy="23" rx="3" ry="5" fill="white" opacity="0.9"/>
-              <ellipse cx="9"  cy="16" rx="5" ry="3" fill="white" opacity="0.9"/>
-              <ellipse cx="23" cy="16" rx="5" ry="3" fill="white" opacity="0.9"/>
-            </svg>
-          </div>
-          <div>
-            <p className="text-sm font-medium" style={{ color: '#1A1A1A' }}>AjoloDevs</p>
-            <p className="text-xs" style={{ color: '#888' }}>Panel Admin</p>
-          </div>
+      {/* Logo */}
+      <div style={{ borderBottom: '1px solid #C8EAD8' }}
+        className="flex items-center gap-3 px-5 py-5">
+        <img src="/logo.png" alt="AjoloDevs"
+        style={{ width: '36px', height: '36px', objectFit: 'contain', flexShrink: 0 }} />
+      <div>
+      <p className="text-sm font-medium" style={{ color: '#1A1A1A' }}>AjoloDevs</p>
+      <p className="text-xs" style={{ color: '#888' }}>Panel Admin</p>
         </div>
+      </div>
 
        {/* Links */}
         <nav className="flex flex-col flex-1 p-2 gap-1">
