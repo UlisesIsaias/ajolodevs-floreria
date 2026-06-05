@@ -10,10 +10,10 @@ const carritoRoutes     = require('./routes/carrito.routes');
 const pedidosRoutes     = require('./routes/pedidos.routes');
 const pagosRoutes       = require('./routes/pagos.routes');
 const reportesRoutes    = require('./routes/reportes.routes');
+const usuariosRoutes    = require('./routes/usuarios.routes');
 
 const app = express();
 
-//app.use(cors({ origin: 'ajolodevs-floreria.vercel.app', credentials: true }));
 app.use(cors({
   origin: [
     'http://localhost:5173',
@@ -31,9 +31,10 @@ app.use('/api/carrito',     carritoRoutes);
 app.use('/api/pedidos',     pedidosRoutes);
 app.use('/api/pagos',       pagosRoutes);
 app.use('/api/reportes',    reportesRoutes);
+app.use('/api/usuarios',    usuariosRoutes);
 
 app.get('/', (req, res) => {
-  res.json({ mensaje: '🌸 AjoloDevs Florería API funcionando' });
+  res.json({ mensaje: 'AjoloDevs Florería API funcionando' });
 });
 
 module.exports = app;
