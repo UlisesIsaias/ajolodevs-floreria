@@ -1,5 +1,5 @@
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, Tag, ShoppingBag, Warehouse, BarChart2, LogOut } from 'lucide-react';
+import { LayoutDashboard, Package, Tag, ShoppingBag, Warehouse, BarChart2, LogOut, Users} from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const links = [
@@ -9,6 +9,7 @@ const links = [
   { to: '/admin/pedidos',    icono: <ShoppingBag size={18} />,     label: 'Pedidos' },
   { to: '/admin/inventario', icono: <Warehouse size={18} />,       label: 'Inventario' },
   { to: '/admin/reportes',   icono: <BarChart2 size={18} />,       label: 'Reportes' },
+  { to: '/admin/usuarios',   icono: <Users size={18} />,           label: 'Usuarios' },
 ];
 
 export default function LayoutAdmin() {

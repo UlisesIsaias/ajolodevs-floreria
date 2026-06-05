@@ -24,6 +24,7 @@ import AdminCategorias from './pages/admin/Categorias';
 import AdminPedidos   from './pages/admin/Pedidos';
 import AdminInventario from './pages/admin/Inventario';
 import AdminReportes  from './pages/admin/Reportes';
+import AdminUsuarios from './pages/admin/Usuarios';
 
 // Rutas protegidas
 const RutaPrivada = ({ children }) => {
@@ -67,6 +68,7 @@ export default function App() {
         <Route path="pedidos"       element={<AdminPedidos />} />
         <Route path="inventario"    element={<AdminInventario />} />
         <Route path="reportes"      element={<AdminReportes />} />
+        <Route path="usuarios"      element={<AdminUsuarios />} />
       </Route>
     </Routes>
   );
